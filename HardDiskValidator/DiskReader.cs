@@ -28,7 +28,7 @@ namespace HardDiskValidator
         }
 
         /// <returns>Will return null if test is aborted</returns>
-        protected byte[] ReadSectors(long sectorIndex, int sectorCount)
+        public byte[] ReadSectors(long sectorIndex, int sectorCount)
         {
             if (sectorCount > PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
@@ -58,7 +58,7 @@ namespace HardDiskValidator
         }
 
         /// <returns>Will return null if unrecoverable IOError has occured or test is aborted</returns>
-        protected byte[] ReadEverySector(long sectorIndex, int sectorCount, out List<long> damagedSectors, out bool ioErrorOccured)
+        public byte[] ReadEverySector(long sectorIndex, int sectorCount, out List<long> damagedSectors, out bool ioErrorOccured)
         {
             if (sectorCount > PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
@@ -100,7 +100,8 @@ namespace HardDiskValidator
             ioErrorOccured = false;
             try
             {
-                return ReadSectors(sectorIndex, sectorCount);
+                UpdateStatus(sectorIndex * m_disk.BytesPerSector);
+                return m_disk.ReadSectors(sectorIndex, sectorCount);
             }
             catch (IOException ex1)
             {
