@@ -260,7 +260,7 @@ namespace HardDiskValidator
             AddToLog("Hard Disk Validator {0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(3));
             AddToLog("Starting {0} Test", GetTestTitle(testName));
             AddToLog("Disk: {0}, S/N: {1}", disk.Description, disk.SerialNumber);
-            AddToLog("Disk size: {0} ({1} sectors, {2} bytes per sector)", UIHelper.GetSizeString(disk.Size), disk.TotalSectors, disk.BytesPerSector);
+            AddToLog("Disk size: {0} ({1:###,###,###,###,###} sectors, {2} bytes per sector)", UIHelper.GetSizeString(disk.Size), disk.TotalSectors, disk.BytesPerSector);
             if (!(testName == TestName.Read || testName == TestName.Verify))
             {
                 bool success = disk.ExclusiveLock();
@@ -356,7 +356,7 @@ namespace HardDiskValidator
                 totalSeconds = Math.Max(totalSeconds, 1);
                 long speed = currentPosition / totalSeconds;
                 lblSpeed.Text = String.Format("Speed: {0}/s", UIHelper.GetSizeString(speed));
-                string progressText = String.Format("Position: {0:###,###,###,###,##0}", currentPosition);
+                string progressText = String.Format("Position: {0:###,###,###,###,###}", currentPosition);
                 lblPosition.Text = progressText;
             }
         }
