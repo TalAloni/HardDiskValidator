@@ -38,10 +38,20 @@ namespace HardDiskValidator
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            PopulateDiskList();
+            PopulateDiskList(comboDisks);
         }
 
         private void pictureBoxMap_Paint(object sender, PaintEventArgs e)
+        {
+            DrawDiskMap(e.Graphics);
+        }
+
+        private void pictureBoxLegend_Paint(object sender, PaintEventArgs e)
+        {
+            DrawLegend(e.Graphics);
+        }
+
+        private void DrawDiskMap(Graphics graphics)
         {
             const int BlockWidth = 6;
             const int BlockHeight = 5;
@@ -52,13 +62,13 @@ namespace HardDiskValidator
             for (int index = 0; index <= HorizontalBlocks; index++)
             {
                 int x = (BlockWidth + 1) * index;
-                e.Graphics.DrawLine(pen, x, 0, x, height);
+                graphics.DrawLine(pen, x, 0, x, height);
             }
 
             for (int index = 0; index <= VerticalBlocks; index++)
             {
                 int y = (BlockHeight + 1) * index;
-                e.Graphics.DrawLine(pen, 0, y, width, y);
+                graphics.DrawLine(pen, 0, y, width, y);
             }
 
             for (int index = 0; index < m_blocks.Length; index++)
@@ -69,16 +79,16 @@ namespace HardDiskValidator
                 int x = 1 + hIndex * (1 + BlockWidth);
                 int y = 1 + vIndex * (1 + BlockHeight);
                 SolidBrush brush = new SolidBrush(UIHelper.GetColor(m_blocks[index]));
-                e.Graphics.FillRectangle(brush, x, y, BlockWidth, BlockHeight);
+                graphics.FillRectangle(brush, x, y, BlockWidth, BlockHeight);
             }
         }
 
-        private void pictureBoxLegend_Paint(object sender, PaintEventArgs e)
+        private void DrawLegend(Graphics graphics)
         {
-            DrawLegendEntry(e.Graphics, 1, 8, BlockStatus.OK, "OK");
-            DrawLegendEntry(e.Graphics, 1, 24, BlockStatus.OverwriteOK, "Overwrite OK");
-            DrawLegendEntry(e.Graphics, 1, 40, BlockStatus.Damaged, "Damaged");
-            DrawLegendEntry(e.Graphics, 1, 56, BlockStatus.IOError, "IO Error");
+            DrawLegendEntry(graphics, 1, 8, BlockStatus.OK, "OK");
+            DrawLegendEntry(graphics, 1, 24, BlockStatus.OverwriteOK, "Overwrite OK");
+            DrawLegendEntry(graphics, 1, 40, BlockStatus.Damaged, "Damaged");
+            DrawLegendEntry(graphics, 1, 56, BlockStatus.IOError, "IO Error");
         }
 
         private void DrawLegendEntry(Graphics graphics, float x, float y, BlockStatus status, string text)
@@ -124,23 +134,23 @@ namespace HardDiskValidator
             }
         }
 
-        private void PopulateDiskList()
+        private void PopulateDiskList(ComboBox comboBox)
         {
             Thread thread = new Thread(delegate()
             {
                 List<PhysicalDisk> disks = PhysicalDiskHelper.GetPhysicalDisks();
                 this.Invoke((MethodInvoker)delegate
                 {
-                    comboDisks.Items.Clear();
-                    comboDisks.DisplayMember = "Value";
-                    comboDisks.ValueMember = "Key";
+                    comboBox.Items.Clear();
+                    comboBox.DisplayMember = "Value";
+                    comboBox.ValueMember = "Key";
                     foreach (PhysicalDisk disk in disks)
                     {
                         string title = String.Format("[{0}] {1} ({2})", disk.PhysicalDiskIndex, disk.Description,  UIHelper.GetSizeString(disk.Size));
-                        comboDisks.Items.Add(new KeyValuePair<int, string>(disk.PhysicalDiskIndex, title));
+                        comboBox.Items.Add(new KeyValuePair<int, string>(disk.PhysicalDiskIndex, title));
                     }
-                    comboDisks.SelectedIndex = 0;
-                    comboDisks.Enabled = true;
+                    comboBox.SelectedIndex = 0;
+                    comboBox.Enabled = true;
                 });
             });
             thread.Start();
@@ -281,7 +291,7 @@ namespace HardDiskValidator
             {
                 AddToLog(format, args);
             };
-            // The last sector might be bigger than the others
+            // The last segment might be bigger than the others
             long uiBlockSize = disk.TotalSectors / (HorizontalBlocks * VerticalBlocks);
             m_blocks = new BlockStatus[HorizontalBlocks * VerticalBlocks];
             this.Invoke((MethodInvoker)delegate
