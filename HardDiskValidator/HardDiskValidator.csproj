@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiskReader.cs" />
     <Compile Include="DiskTester.cs">
     </Compile>
     <Compile Include="Enums\BlockStatus.cs" />
