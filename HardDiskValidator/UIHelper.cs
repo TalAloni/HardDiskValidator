@@ -32,7 +32,7 @@ namespace HardDiskValidator
 
         public static string GetSizeString(long value)
         {
-            string[] suffixes = { " B", "KB", "MB", "GB", "TB", "PB", "EB" };
+            string[] suffixes = { " B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB" };
             int suffixIndex = 0;
             while (value > 9999 && suffixIndex < suffixes.Length - 1)
             {
