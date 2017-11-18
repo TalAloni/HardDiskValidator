@@ -266,7 +266,6 @@ namespace HardDiskValidator
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
-                byte[] pattern = GetTestPattern(sectorIndex + sectorOffset, sectorsToRead, Disk.BytesPerSector);
                 byte[] buffer;
                 try
                 {
@@ -292,11 +291,18 @@ namespace HardDiskValidator
                     return BlockStatus.Untested;
                 }
 
-                if (!ByteUtils.AreByteArraysEqual(pattern, buffer))
+                BlockStatus status = BlockStatus.OK;
+                for (int position = 0; position < sectorsToRead; position++)
                 {
-                    AddToLog("Verification mismatch at sectors {0:###,###,###,###,##0}-{1:###,###,###,###,##0}", sectorIndex, sectorIndex + sectorsToRead - 1);
-                    return BlockStatus.Damaged;
+                    byte[] pattern = GetTestPattern(sectorIndex + sectorOffset + position, Disk.BytesPerSector);
+                    byte[] sectorBytes = ByteReader.ReadBytes(buffer, position * Disk.BytesPerSector, Disk.BytesPerSector);
+                    if (!ByteUtils.AreByteArraysEqual(pattern, sectorBytes))
+                    {
+                        status = BlockStatus.Damaged;
+                        AddToLog("Verification mismatch at sector {0:###,###,###,###,###}", sectorIndex + sectorOffset + position);
+                    }
                 }
+                return status;
             }
 
             return BlockStatus.OK;
