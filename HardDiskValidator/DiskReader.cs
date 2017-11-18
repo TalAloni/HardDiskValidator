@@ -57,7 +57,7 @@ namespace HardDiskValidator
             }
         }
 
-        /// <returns>Will return null if test is aborted</returns>
+        /// <returns>Will return null if unrecoverable IOError has occured or test is aborted</returns>
         protected byte[] ReadEverySector(long sectorIndex, int sectorCount, out List<long> damagedSectors, out bool ioErrorOccured)
         {
             if (sectorCount > PhysicalDisk.MaximumDirectTransferSizeLBA)
@@ -77,8 +77,9 @@ namespace HardDiskValidator
                     if (ioErrorOccuredInSegment)
                     {
                         ioErrorOccured = true;
+                        return null;
                     }
-                    if (m_abort || ioErrorOccured)
+                    if (m_abort)
                     {
                         return null;
                     }
@@ -92,7 +93,7 @@ namespace HardDiskValidator
             }
         }
 
-        /// <returns>Will return null if test is aborted</returns>
+        /// <returns>Will return null if unrecoverable IOError has occured or test is aborted</returns>
         private byte[] ReadEverySectorUnbuffered(long sectorIndex, int sectorCount, out List<long> damagedSectors, out bool ioErrorOccured)
         {
             damagedSectors = new List<long>();
@@ -133,6 +134,7 @@ namespace HardDiskValidator
                         else // ERROR_FILE_NOT_FOUND, ERROR_DEVICE_NOT_CONNECTED, ERROR_DEV_NOT_EXIST etc.
                         {
                             ioErrorOccured = true;
+                            return null;
                         }
                     }
                     if (m_abort)
@@ -141,9 +143,11 @@ namespace HardDiskValidator
                     }
                 }
 
-                if (damagedSectors.Count == 0 && !ioErrorOccured)
+                if (damagedSectors.Count == 0)
                 {
-                    // Sometimes the bulk read will raise an exception but all sector by sector reads will succeed
+                    // Sometimes the bulk read will raise an exception but all sector by sector reads will succeed.
+                    // This means that there is some serious (and most likely unrecoverable) issue with the disk
+                    // so we report this as an unrecoverable IO error even though we managed to retrieve all of the data.
                     ioErrorOccured = true;
                 }
                 return data;
