@@ -64,12 +64,12 @@ namespace HardDiskValidator
                     int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
                     if (errorCode == (int)Win32Error.ERROR_IO_DEVICE || errorCode == (int)Win32Error.ERROR_CRC)
                     {
-                        AddToLog("Read failure at sectors {0:###,###,###,###,###}-{1:###,###,###,###,###}", sectorIndex, sectorIndex + sectorsToRead - 1);
+                        AddToLog("Read failure at sectors {0:###,###,###,###,##0}-{1:###,###,###,###,##0}", sectorIndex, sectorIndex + sectorsToRead - 1);
                         return BlockStatus.Damaged;
                     }
                     else // ERROR_FILE_NOT_FOUND, ERROR_DEVICE_NOT_CONNECTED, ERROR_DEV_NOT_EXIST etc.
                     {
-                        AddToLog("Read failure (Win32 error: {0}) at sectors {1:###,###,###,###,###}-{2:###,###,###,###,###}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
+                        AddToLog("Read failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
                         return BlockStatus.IOError;
                     }
                 }
@@ -118,10 +118,10 @@ namespace HardDiskValidator
                         catch (IOException ex)
                         {
                             int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
-                            AddToLog("Write failure (Win32 error: {0}) at sector {1:###,###,###,###,###}", errorCode, damagedSectorIndex);
+                            AddToLog("Write failure (Win32 error: {0}) at sector {1:###,###,###,###,##0}", errorCode, damagedSectorIndex);
                             return BlockStatus.IOError;
                         }
-                        AddToLog("Sector {0:###,###,###,###,###} has been overwritten", damagedSectorIndex);
+                        AddToLog("Sector {0:###,###,###,###,##0} has been overwritten", damagedSectorIndex);
                     }
 
                     // TODO: We should make sure that the writes are flushed to disk
@@ -134,12 +134,12 @@ namespace HardDiskValidator
                         int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
                         if (errorCode == (int)Win32Error.ERROR_IO_DEVICE || errorCode == (int)Win32Error.ERROR_CRC)
                         {
-                            AddToLog("Second read failure at sectors {0:###,###,###,###,###}-{1:###,###,###,###,###}", sectorIndex, sectorIndex + sectorsToRead - 1);
+                            AddToLog("Second read failure at sectors {0:###,###,###,###,##0}-{1:###,###,###,###,##0}", sectorIndex, sectorIndex + sectorsToRead - 1);
                             return BlockStatus.Damaged;
                         }
                         else // ERROR_FILE_NOT_FOUND, ERROR_DEVICE_NOT_CONNECTED, ERROR_DEV_NOT_EXIST etc.
                         {
-                            AddToLog("Second read failure (Win32 error: {0}) at sectors {1:###,###,###,###,###}-{2:###,###,###,###,###}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
+                            AddToLog("Second read failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
                             return BlockStatus.IOError;
                         }
                     }
@@ -199,7 +199,7 @@ namespace HardDiskValidator
                 catch (Exception ex)
                 {
                     int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
-                    AddToLog("Restore failure (Win32 error: {0}) at sectors {1:###,###,###,###,###}-{2:###,###,###,###,###}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
+                    AddToLog("Restore failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
                     return BlockStatus.IOError;
                 }
 
@@ -243,7 +243,7 @@ namespace HardDiskValidator
                 catch (IOException ex)
                 {
                     int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
-                    AddToLog("Write failure (Win32 error: {0}) at sectors {1:###,###,###,###,###}-{2:###,###,###,###,###}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
+                    AddToLog("Write failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
                     return BlockStatus.IOError;
                 }
 
@@ -276,12 +276,12 @@ namespace HardDiskValidator
                     int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
                     if (errorCode == (int)Win32Error.ERROR_IO_DEVICE || errorCode == (int)Win32Error.ERROR_CRC)
                     {
-                        AddToLog("Read failure at sectors {0:###,###,###,###,###}-{1:###,###,###,###,###}", sectorIndex, sectorIndex + sectorsToRead - 1);
+                        AddToLog("Read failure at sectors {0:###,###,###,###,##0}-{1:###,###,###,###,##0}", sectorIndex, sectorIndex + sectorsToRead - 1);
                         return BlockStatus.Damaged;
                     }
                     else // ERROR_FILE_NOT_FOUND, ERROR_DEVICE_NOT_CONNECTED, ERROR_DEV_NOT_EXIST etc.
                     {
-                        AddToLog("Read failure (Win32 error: {0}) at sectors {1:###,###,###,###,###}-{2:###,###,###,###,###}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
+                        AddToLog("Read failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
                         return BlockStatus.IOError;
                     }
                 }
@@ -299,7 +299,7 @@ namespace HardDiskValidator
                     if (!ByteUtils.AreByteArraysEqual(pattern, sectorBytes))
                     {
                         status = BlockStatus.Damaged;
-                        AddToLog("Verification mismatch at sector {0:###,###,###,###,###}", sectorIndex + sectorOffset + position);
+                        AddToLog("Verification mismatch at sector {0:###,###,###,###,##0}", sectorIndex + sectorOffset + position);
                     }
                 }
                 return status;
