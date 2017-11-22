@@ -27,9 +27,10 @@ namespace HardDiskValidator
             m_disk = disk;
         }
 
-        /// <returns>Will return null if test is aborted</returns>
-        public byte[] ReadSectors(long sectorIndex, int sectorCount)
+        /// <returns>Will return null if an error has occured or read is aborted</returns>
+        public byte[] ReadSectors(long sectorIndex, int sectorCount, out bool ioErrorOccured)
         {
+            ioErrorOccured = false;
             if (sectorCount > PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
                 // we must read one segment at the time, and copy the segments to a big bufffer
@@ -38,12 +39,9 @@ namespace HardDiskValidator
                 {
                     int leftToRead = sectorCount - sectorOffset;
                     int sectorsToRead = (int)Math.Min(leftToRead, PhysicalDisk.MaximumDirectTransferSizeLBA);
-                    long currentPosition = (sectorIndex + sectorOffset) * m_disk.BytesPerSector;
-                    UpdateStatus(currentPosition);
-                    byte[] segment = m_disk.ReadSectors(sectorIndex + sectorOffset, sectorsToRead);
+                    byte[] segment = ReadSectorsUnbuffered(sectorIndex + sectorOffset, sectorsToRead, out ioErrorOccured);
                     Array.Copy(segment, 0, buffer, sectorOffset * m_disk.BytesPerSector, segment.Length);
-
-                    if (m_abort)
+                    if (m_abort || ioErrorOccured || segment == null)
                     {
                         return null;
                     }
@@ -52,12 +50,32 @@ namespace HardDiskValidator
             }
             else
             {
-                UpdateStatus(sectorIndex * m_disk.BytesPerSector);
-                return m_disk.ReadSectors(sectorIndex, sectorCount);
+                return ReadSectorsUnbuffered(sectorIndex, sectorCount, out ioErrorOccured);
             }
         }
 
-        /// <returns>Will return null if unrecoverable IOError has occured or test is aborted</returns>
+        /// <returns>Will return null if an error has occured</returns>
+        public byte[] ReadSectorsUnbuffered(long sectorIndex, int sectorCount, out bool ioErrorOccured)
+        {
+            ioErrorOccured = false;
+            UpdateStatus(sectorIndex * m_disk.BytesPerSector);
+            try
+            {
+                return m_disk.ReadSectors(sectorIndex, sectorCount);
+            }
+            catch (IOException ex)
+            {
+                int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
+                AddToLog("Read failure (Win32 error: {0}) at {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorCount - 1);
+                if (errorCode != (int)Win32Error.ERROR_IO_DEVICE && errorCode != (int)Win32Error.ERROR_CRC)
+                {
+                    ioErrorOccured = true;
+                }
+                return null;
+            }
+        }
+
+        /// <returns>Will return null if unrecoverable IO Error has occured or read is aborted</returns>
         public byte[] ReadEverySector(long sectorIndex, int sectorCount, out List<long> damagedSectors, out bool ioErrorOccured)
         {
             if (sectorCount > PhysicalDisk.MaximumDirectTransferSizeLBA)
@@ -93,8 +111,8 @@ namespace HardDiskValidator
             }
         }
 
-        /// <returns>Will return null if unrecoverable IOError has occured or test is aborted</returns>
-        private byte[] ReadEverySectorUnbuffered(long sectorIndex, int sectorCount, out List<long> damagedSectors, out bool ioErrorOccured)
+        /// <returns>Will return null if an unrecoverable IO Error has occured or read is aborted</returns>
+        public byte[] ReadEverySectorUnbuffered(long sectorIndex, int sectorCount, out List<long> damagedSectors, out bool ioErrorOccured)
         {
             damagedSectors = new List<long>();
             ioErrorOccured = false;

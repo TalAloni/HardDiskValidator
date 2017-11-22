@@ -55,28 +55,21 @@ namespace HardDiskValidator
             {
                 int leftToRead = (int)(sectorCount - sectorOffset);
                 int sectorsToRead = (int)Math.Min(leftToRead, PhysicalDisk.MaximumDirectTransferSizeLBA);
-                try
-                {
-                    ReadSectors(sectorIndex + sectorOffset, sectorsToRead);
-                }
-                catch (IOException ex)
-                {
-                    int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
-                    if (errorCode == (int)Win32Error.ERROR_IO_DEVICE || errorCode == (int)Win32Error.ERROR_CRC)
-                    {
-                        AddToLog("Read failure at sectors {0:###,###,###,###,##0}-{1:###,###,###,###,##0}", sectorIndex, sectorIndex + sectorsToRead - 1);
-                        return BlockStatus.Damaged;
-                    }
-                    else // ERROR_FILE_NOT_FOUND, ERROR_DEVICE_NOT_CONNECTED, ERROR_DEV_NOT_EXIST etc.
-                    {
-                        AddToLog("Read failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
-                        return BlockStatus.IOError;
-                    }
-                }
-
+                bool ioErrorOccured;
+                byte[] segment = ReadSectors(sectorIndex + sectorOffset, sectorsToRead, out ioErrorOccured);
                 if (Abort)
                 {
                     return BlockStatus.Untested;
+                }
+
+                if (ioErrorOccured)
+                {
+                    return BlockStatus.IOError;
+                }
+                
+                if (segment == null)
+                {
+                    return BlockStatus.Damaged;
                 }
             }
             return BlockStatus.OK;
@@ -85,6 +78,7 @@ namespace HardDiskValidator
         private BlockStatus PerformReadWipeDamagedReadTest(long sectorIndex, long sectorCount)
         {
             bool crcErrorOccuredInFirstPass = false;
+            // We use a large TransferSizeLBA to circumvent the disk caching mechanism
             for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += TransferSizeLBA)
             {
                 int leftToRead = (int)(sectorCount - sectorOffset);
@@ -125,23 +119,21 @@ namespace HardDiskValidator
                     }
 
                     // TODO: We should make sure that the writes are flushed to disk
-                    try
+                    byte[] segment = ReadSectors(sectorIndex + sectorOffset, sectorsToRead, out ioErrorOccured);
+                    
+                    if (Abort)
                     {
-                        ReadSectors(sectorIndex + sectorOffset, sectorsToRead);
+                        return BlockStatus.Untested;
                     }
-                    catch (IOException ex)
+
+                    if (ioErrorOccured)
                     {
-                        int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
-                        if (errorCode == (int)Win32Error.ERROR_IO_DEVICE || errorCode == (int)Win32Error.ERROR_CRC)
-                        {
-                            AddToLog("Second read failure at sectors {0:###,###,###,###,##0}-{1:###,###,###,###,##0}", sectorIndex, sectorIndex + sectorsToRead - 1);
-                            return BlockStatus.Damaged;
-                        }
-                        else // ERROR_FILE_NOT_FOUND, ERROR_DEVICE_NOT_CONNECTED, ERROR_DEV_NOT_EXIST etc.
-                        {
-                            AddToLog("Second read failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
-                            return BlockStatus.IOError;
-                        }
+                        return BlockStatus.IOError;
+                    }
+
+                    if (segment == null)
+                    {
+                        return BlockStatus.Damaged;
                     }
                 }
                 if (Abort)
@@ -266,29 +258,22 @@ namespace HardDiskValidator
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
 
-                byte[] buffer;
-                try
-                {
-                    buffer = ReadSectors(sectorIndex + sectorOffset, sectorsToRead);
-                }
-                catch (IOException ex)
-                {
-                    int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
-                    if (errorCode == (int)Win32Error.ERROR_IO_DEVICE || errorCode == (int)Win32Error.ERROR_CRC)
-                    {
-                        AddToLog("Read failure at sectors {0:###,###,###,###,##0}-{1:###,###,###,###,##0}", sectorIndex, sectorIndex + sectorsToRead - 1);
-                        return BlockStatus.Damaged;
-                    }
-                    else // ERROR_FILE_NOT_FOUND, ERROR_DEVICE_NOT_CONNECTED, ERROR_DEV_NOT_EXIST etc.
-                    {
-                        AddToLog("Read failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToRead - 1);
-                        return BlockStatus.IOError;
-                    }
-                }
+                bool ioErrorOccured;
+                byte[] buffer = ReadSectors(sectorIndex + sectorOffset, sectorsToRead, out ioErrorOccured);
 
                 if (Abort)
                 {
                     return BlockStatus.Untested;
+                }
+
+                if (ioErrorOccured)
+                {
+                    return BlockStatus.IOError;
+                }
+
+                if (buffer == null)
+                {
+                    return BlockStatus.Damaged;
                 }
 
                 BlockStatus status = BlockStatus.OK;
