@@ -1,4 +1,4 @@
-/* Copyright (C) 2016 Tal Aloni <tal.aloni.il@gmail.com>. All rights reserved.
+/* Copyright (C) 2016-2018 Tal Aloni <tal.aloni.il@gmail.com>. All rights reserved.
  * 
  * You can redistribute this program and/or modify it under the terms of
  * the GNU Lesser Public License as published by the Free Software Foundation,
@@ -250,6 +250,7 @@ namespace HardDiskValidator
 
         private BlockStatus PerformVerifyTest(long sectorIndex, long sectorCount)
         {
+            bool verificationMismatch = false;
             for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
                 int leftToRead = (int)(sectorCount - sectorOffset);
@@ -276,21 +277,26 @@ namespace HardDiskValidator
                     return BlockStatus.Damaged;
                 }
 
-                BlockStatus status = BlockStatus.OK;
                 for (int position = 0; position < sectorsToRead; position++)
                 {
                     byte[] pattern = GetTestPattern(sectorIndex + sectorOffset + position, Disk.BytesPerSector);
                     byte[] sectorBytes = ByteReader.ReadBytes(buffer, position * Disk.BytesPerSector, Disk.BytesPerSector);
                     if (!ByteUtils.AreByteArraysEqual(pattern, sectorBytes))
                     {
-                        status = BlockStatus.Damaged;
+                        verificationMismatch = true;
                         AddToLog("Verification mismatch at sector {0:###,###,###,###,##0}", sectorIndex + sectorOffset + position);
                     }
                 }
-                return status;
             }
 
-            return BlockStatus.OK;
+            if (verificationMismatch)
+            {
+                return BlockStatus.Damaged;
+            }
+            else
+            {
+                return BlockStatus.OK;
+            }
         }
 
         public void WriteSectors(long sectorIndex, byte[] data)
