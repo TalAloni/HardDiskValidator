@@ -42,6 +42,10 @@ namespace HardDiskValidator
             {
                 return PerformWriteVerifyTest(sectorIndex, sectorCount);
             }
+            else if (m_testName == TestName.Write)
+            {
+                return PerformWriteTest(sectorIndex, sectorCount);
+            }
             else
             {
                 return PerformVerifyTest(sectorIndex, sectorCount);
@@ -246,6 +250,36 @@ namespace HardDiskValidator
             }
 
             return PerformVerifyTest(sectorIndex, sectorCount);
+        }
+
+        private BlockStatus PerformWriteTest(long sectorIndex, long sectorCount)
+        {
+            for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += PhysicalDisk.MaximumDirectTransferSizeLBA)
+            {
+                int leftToWrite = (int)(sectorCount - sectorOffset);
+                int sectorsToWrite = (int)Math.Min(leftToWrite, PhysicalDisk.MaximumDirectTransferSizeLBA);
+                // Clear allocations from previous iteration
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                byte[] pattern = GetTestPattern(sectorIndex + sectorOffset, sectorsToWrite, Disk.BytesPerSector);
+                try
+                {
+                    WriteSectors(sectorIndex + sectorOffset, pattern);
+                }
+                catch (IOException ex)
+                {
+                    int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
+                    AddToLog("Write failure (Win32 error: {0}) at sectors {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorsToWrite - 1);
+                    return BlockStatus.IOError;
+                }
+
+                if (Abort)
+                {
+                    return BlockStatus.Untested;
+                }
+            }
+
+            return BlockStatus.OK;
         }
 
         private BlockStatus PerformVerifyTest(long sectorIndex, long sectorCount)

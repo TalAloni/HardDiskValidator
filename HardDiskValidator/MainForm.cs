@@ -1,4 +1,4 @@
-/* Copyright (C) 2016 Tal Aloni <tal.aloni.il@gmail.com>. All rights reserved.
+/* Copyright (C) 2016-2018 Tal Aloni <tal.aloni.il@gmail.com>. All rights reserved.
  * 
  * You can redistribute this program and/or modify it under the terms of
  * the GNU Lesser Public License as published by the Free Software Foundation,
@@ -203,13 +203,20 @@ namespace HardDiskValidator
                 }
                 else if (chkWriteVerify.Checked)
                 {
-                    if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
+                    if ((Control.ModifierKeys & (Keys.Control | Keys.Shift)) == Keys.Control)
                     {
                         testName = TestName.Verify;
                     }
                     else
                     {
-                        testName = TestName.WriteVerify;
+                        if ((Control.ModifierKeys & (Keys.Control | Keys.Shift)) == (Keys.Control | Keys.Shift))
+                        {
+                            testName = TestName.Write;
+                        }
+                        else
+                        {
+                            testName = TestName.WriteVerify;
+                        }
                         DialogResult dialogResult = MessageBox.Show("This test will erase all existing data on the selected disk, Are you sure?", "Warning", MessageBoxButtons.YesNo);
                         if (dialogResult == DialogResult.No)
                         {
@@ -364,13 +371,27 @@ namespace HardDiskValidator
         {
             if (e.Control)
             {
-                chkWriteVerify.Text = GetTestTitle(TestName.Verify);
+                if (e.Shift)
+                {
+                    chkWriteVerify.Text = GetTestTitle(TestName.Write);
+                }
+                else
+                {
+                    chkWriteVerify.Text = GetTestTitle(TestName.Verify);
+                }
             }
         }
 
         private void MainForm_KeyUp(object sender, KeyEventArgs e)
         {
-            chkWriteVerify.Text = GetTestTitle(TestName.WriteVerify);
+            if (e.Control)
+            {
+                chkWriteVerify.Text = GetTestTitle(TestName.Verify);
+            }
+            else
+            {
+                chkWriteVerify.Text = GetTestTitle(TestName.WriteVerify);
+            }
         }
 
         private void MainForm_Deactivate(object sender, EventArgs e)
@@ -412,6 +433,10 @@ namespace HardDiskValidator
             else if (testName == TestName.WriteVerify)
             {
                 return "Write + Verify";
+            }
+            else if (testName == TestName.Write)
+            {
+                return "Write";
             }
             else
             {

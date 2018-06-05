@@ -7,6 +7,7 @@ namespace HardDiskValidator
         ReadWipeDamagedRead,
         ReadWriteVerifyRestore,
         WriteVerify,
+        Write,  // The first part of WriteVerify
         Verify, // The second part of WriteVerify
     }
 }
