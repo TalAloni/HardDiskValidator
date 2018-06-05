@@ -330,15 +330,16 @@ namespace HardDiskValidator
 
         private static byte[] GetTestPattern(long sectorIndex, int sectorCount, int bytesPerSector)
         {
-            byte[] pattern = new byte[sectorCount * bytesPerSector];
+            byte[] buffer = new byte[sectorCount * bytesPerSector];
             for (int sectorOffset = 0; sectorOffset < sectorCount; sectorOffset++)
             {
+                byte[] pattern = BigEndianConverter.GetBytes(sectorIndex + sectorOffset);
                 for (int offsetInSector = 0; offsetInSector <= bytesPerSector - 8; offsetInSector += 8)
                 {
-                    BigEndianWriter.WriteInt64(pattern, sectorOffset * bytesPerSector + offsetInSector, sectorIndex + sectorOffset);
+                    Array.Copy(pattern, 0, buffer, sectorOffset * bytesPerSector + offsetInSector, 8);
                 }
             }
-            return pattern;
+            return buffer;
         }
     }
 }
