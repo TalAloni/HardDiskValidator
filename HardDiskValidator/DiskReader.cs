@@ -1,4 +1,4 @@
-/* Copyright (C) 2016-2017 Tal Aloni <tal.aloni.il@gmail.com>. All rights reserved.
+/* Copyright (C) 2016-2018 Tal Aloni <tal.aloni.il@gmail.com>. All rights reserved.
  * 
  * You can redistribute this program and/or modify it under the terms of
  * the GNU Lesser Public License as published by the Free Software Foundation,
@@ -40,11 +40,11 @@ namespace HardDiskValidator
                     int leftToRead = sectorCount - sectorOffset;
                     int sectorsToRead = (int)Math.Min(leftToRead, PhysicalDisk.MaximumDirectTransferSizeLBA);
                     byte[] segment = ReadSectorsUnbuffered(sectorIndex + sectorOffset, sectorsToRead, out ioErrorOccured);
-                    Array.Copy(segment, 0, buffer, sectorOffset * m_disk.BytesPerSector, segment.Length);
                     if (m_abort || ioErrorOccured || segment == null)
                     {
                         return null;
                     }
+                    Array.Copy(segment, 0, buffer, sectorOffset * m_disk.BytesPerSector, segment.Length);
                 }
                 return buffer;
             }
