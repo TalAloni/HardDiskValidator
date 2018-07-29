@@ -57,7 +57,7 @@ namespace HardDiskValidator
             // The only reason to read every sector separately is to maximize data recovery
             for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
-                int leftToRead = (int)(sectorCount - sectorOffset);
+                long leftToRead = sectorCount - sectorOffset;
                 int sectorsToRead = (int)Math.Min(leftToRead, PhysicalDisk.MaximumDirectTransferSizeLBA);
                 bool ioErrorOccured;
                 byte[] segment = ReadSectors(sectorIndex + sectorOffset, sectorsToRead, out ioErrorOccured);
@@ -85,7 +85,7 @@ namespace HardDiskValidator
             // We use a large TransferSizeLBA to circumvent the disk caching mechanism
             for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += TransferSizeLBA)
             {
-                int leftToRead = (int)(sectorCount - sectorOffset);
+                long leftToRead = sectorCount - sectorOffset;
                 int sectorsToRead = (int)Math.Min(leftToRead, TransferSizeLBA);
                 List<long> damagedSectors;
                 bool ioErrorOccured;
@@ -161,7 +161,7 @@ namespace HardDiskValidator
             bool crcErrorOccuredInFirstPass = false;
             for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += TransferSizeLBA)
             {
-                int leftToRead = (int)(sectorCount - sectorOffset);
+                long leftToRead = sectorCount - sectorOffset;
                 int sectorsToRead = (int)Math.Min(leftToRead, TransferSizeLBA);
                 List<long> damagedSectors;
                 bool ioErrorOccured;
@@ -226,7 +226,7 @@ namespace HardDiskValidator
             // To be sure that we read from the disk surface, we first write the entire UI block, and only then read from it. 
             for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
-                int leftToRead = (int)(sectorCount - sectorOffset);
+                long leftToRead = sectorCount - sectorOffset;
                 int sectorsToRead = (int)Math.Min(leftToRead, PhysicalDisk.MaximumDirectTransferSizeLBA);
                 // Clear allocations from previous iteration
                 GC.Collect();
@@ -287,7 +287,7 @@ namespace HardDiskValidator
             bool verificationMismatch = false;
             for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
-                int leftToRead = (int)(sectorCount - sectorOffset);
+                long leftToRead = sectorCount - sectorOffset;
                 int sectorsToRead = (int)Math.Min(leftToRead, PhysicalDisk.MaximumDirectTransferSizeLBA);
                 // Clear allocations from previous iteration
                 GC.Collect();

@@ -28,16 +28,16 @@ namespace HardDiskValidator
         }
 
         /// <returns>Will return null if an error has occured or read is aborted</returns>
-        public byte[] ReadSectors(long sectorIndex, int sectorCount, out bool ioErrorOccured)
+        public byte[] ReadSectors(long sectorIndex, long sectorCount, out bool ioErrorOccured)
         {
             ioErrorOccured = false;
             if (sectorCount > PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
                 // we must read one segment at the time, and copy the segments to a big bufffer
                 byte[] buffer = new byte[sectorCount * m_disk.BytesPerSector];
-                for (int sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += PhysicalDisk.MaximumDirectTransferSizeLBA)
+                for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += PhysicalDisk.MaximumDirectTransferSizeLBA)
                 {
-                    int leftToRead = sectorCount - sectorOffset;
+                    long leftToRead = sectorCount - sectorOffset;
                     int sectorsToRead = (int)Math.Min(leftToRead, PhysicalDisk.MaximumDirectTransferSizeLBA);
                     byte[] segment = ReadSectorsUnbuffered(sectorIndex + sectorOffset, sectorsToRead, out ioErrorOccured);
                     if (m_abort || ioErrorOccured || segment == null)
@@ -50,7 +50,7 @@ namespace HardDiskValidator
             }
             else
             {
-                return ReadSectorsUnbuffered(sectorIndex, sectorCount, out ioErrorOccured);
+                return ReadSectorsUnbuffered(sectorIndex, (int)sectorCount, out ioErrorOccured);
             }
         }
 
