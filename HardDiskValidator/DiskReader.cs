@@ -33,7 +33,7 @@ namespace HardDiskValidator
             ioErrorOccured = false;
             if (sectorCount > PhysicalDisk.MaximumDirectTransferSizeLBA)
             {
-                // we must read one segment at the time, and copy the segments to a big bufffer
+                // We must read one segment at a time, and copy the segments to a big bufffer
                 byte[] buffer = new byte[sectorCount * m_disk.BytesPerSector];
                 for (long sectorOffset = 0; sectorOffset < sectorCount; sectorOffset += PhysicalDisk.MaximumDirectTransferSizeLBA)
                 {
