@@ -70,7 +70,7 @@ namespace HardDiskValidator
             }
             catch (IOException ex)
             {
-                int errorCode = System.Runtime.InteropServices.Marshal.GetHRForException(ex);
+                int errorCode = IOExceptionHelper.GetWin32ErrorCode(ex);
                 AddToLog("Read failure (Win32 error: {0}) at {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode, sectorIndex, sectorIndex + sectorCount - 1);
                 if (errorCode != (int)Win32Error.ERROR_IO_DEVICE && errorCode != (int)Win32Error.ERROR_CRC)
                 {
@@ -128,7 +128,7 @@ namespace HardDiskValidator
             }
             catch (IOException ex1)
             {
-                int errorCode1 = System.Runtime.InteropServices.Marshal.GetHRForException(ex1);
+                int errorCode1 = IOExceptionHelper.GetWin32ErrorCode(ex1);
                 AddToLog("Read failure (Win32 error: {0}) at {1:###,###,###,###,##0}-{2:###,###,###,###,##0}", errorCode1, sectorIndex, sectorIndex + sectorCount - 1);
                 if (errorCode1 != (int)Win32Error.ERROR_IO_DEVICE && errorCode1 != (int)Win32Error.ERROR_CRC)
                 {
@@ -149,7 +149,7 @@ namespace HardDiskValidator
                     }
                     catch (IOException ex2)
                     {
-                        int errorCode2 = System.Runtime.InteropServices.Marshal.GetHRForException(ex2);
+                        int errorCode2 = IOExceptionHelper.GetWin32ErrorCode(ex2);
                         AddToLog("Read failure (Win32 error: {0}) at sector {1:###,###,###,###,##0}", errorCode2, sectorIndex + sectorOffset);
                         if (errorCode2 == (int)Win32Error.ERROR_IO_DEVICE || errorCode2 == (int)Win32Error.ERROR_CRC)
                         {
