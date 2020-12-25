@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using DiskAccessLibrary;
+using DiskAccessLibrary.Win32;
 using Utilities;
 
 namespace HardDiskValidator

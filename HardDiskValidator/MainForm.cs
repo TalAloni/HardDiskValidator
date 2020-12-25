@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using DiskAccessLibrary;
+using DiskAccessLibrary.Win32;
 using Utilities;
 
 namespace HardDiskValidator
