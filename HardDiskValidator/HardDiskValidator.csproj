@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFrameworks>net20;net40;netcoreapp3.1</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Version>1.0.9</Version>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+  
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net20' ">
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DiskAccessLibrary.Win32" Version="1.5.9" />
+  </ItemGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release' And '$(TargetFramework)' != 'netcoreapp3.1'">
+      <Exec Command="&quot;C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin\mt.exe&quot; -nologo -manifest &quot;$(ProjectDir)Properties\HardDiskValidator.exe.manifest&quot; -outputresource:&quot;$(TargetPath)&quot;" />
+      <Exec Command="&quot;$(ProjectDir)ILMerge\ILMerge.bat&quot; $(TargetFramework)" WorkingDirectory="$(ProjectDir)ILMerge" />
+  </Target>
+
+</Project>

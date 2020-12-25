@@ -78,6 +78,6 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Release "C:\Program Files\Microsoft SDKs\Windows\v6.1\Bin\mt.exe" -nologo -manifest "$(ProjectDir)Properties\HardDiskValidator.exe.manifest" -outputresource:"$(TargetPath)"
 if $(ConfigurationName) == Release CD "$(ProjectDir)ILMerge\"
-if $(ConfigurationName) == Release "$(ProjectDir)ILMerge\ILMerge.bat"</PostBuildEvent>
+if $(ConfigurationName) == Release "$(ProjectDir)ILMerge\ILMerge.VS2005.bat"</PostBuildEvent>
   </PropertyGroup>
 </Project>
