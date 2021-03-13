@@ -29,7 +29,10 @@ namespace HardDiskValidator
         
         public MainForm()
         {
+            // Make the GUI ignore the DPI setting
+            Font = new Font(Font.Name, 8.25f * 96f / CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
             InitializeComponent();
+            WinFormsUtils.SetFixedClientSize(this, 562, 344);
             this.Text += " " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
         }
 
@@ -97,7 +100,7 @@ namespace HardDiskValidator
             SolidBrush brush = new SolidBrush(UIHelper.GetColor(status));
             graphics.DrawRectangle(pen, x, y, BlockWidth + 1, BlockHeight + 1);
             graphics.FillRectangle(brush, x + 1, y + 1, BlockWidth, BlockHeight);
-            Font font = new Font(FontFamily.GenericSansSerif, 8);
+            Font font = new Font(FontFamily.GenericSansSerif, 8.25f * 96f / graphics.DpiX);
             graphics.DrawString(text, font, Brushes.Black, x + 12, y - 3);
         }
 

@@ -209,7 +209,7 @@ namespace HardDiskValidator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(562, 353);
+            this.ClientSize = new System.Drawing.Size(562, 344);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCopyLog);
             this.Controls.Add(this.groupProgress);
@@ -221,8 +221,8 @@ namespace HardDiskValidator
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(570, 380);
-            this.MinimumSize = new System.Drawing.Size(570, 380);
+            this.MaximumSize = new System.Drawing.Size(570, 371);
+            this.MinimumSize = new System.Drawing.Size(570, 371);
             this.Name = "MainForm";
             this.Text = "Hard Disk Validator";
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
