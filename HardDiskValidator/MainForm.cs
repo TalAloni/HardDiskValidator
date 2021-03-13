@@ -331,7 +331,15 @@ namespace HardDiskValidator
             {
                 if (Environment.OSVersion.Version.Major >= 6)
                 {
-                    disk.SetOnlineStatus(true, false);
+                    try
+                    {
+                        disk.SetOnlineStatus(true, false);
+                    }
+                    catch
+                    {
+                        // This may happen if the disk disappeared from the system
+                        MessageBox.Show("Unable to set disk status back to online");
+                    }
                 }
                 disk.ReleaseLock();
                 disk.UpdateProperties();
