@@ -6,6 +6,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Version>1.1.1</Version>
     <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationIcon>Icons\HardDisk.ico</ApplicationIcon>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'net20' ">
