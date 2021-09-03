@@ -27,7 +27,7 @@ If something seems to be wrong with the drive, it's better to back up the data a
 ##### Q: I only have a single hard disk that is used to boot my OS, how can I test it? 
 You should have no problem performing a read test, for any other test it's recommended that you avoid testing the disk that hosts the currently running operating system. so you have two options:   
 &nbsp;&nbsp; **1.** Connect your disk (as a secondary disk) to another PC to test it there.   
-&nbsp;&nbsp; **2.** Boot your PC from Windows PE (from a CD, DVD or USB) and use Mono to launch Hard Disk Validator. I have packaged the necessary Mono files [here](http://vm1.duckdns.org/public/HardDiskValidator/Mono-3.2.3.zip). You can find a ready-to-use WinPE 5.1 ISO [here](https://drive.google.com/open?id=0B1wrdynUizpMOWEwWFBnMlBkRUU). 
+&nbsp;&nbsp; **2.** Boot your PC from Windows PE (from a CD, DVD or USB) and use Mono to launch Hard Disk Validator. I have packaged the necessary Mono files [here](https://drive.google.com/file/d/1cHBupD6LfuFeatFgncX9CMu3HQPkaXlZ/view?usp=sharing). You can find a ready-to-use WinPE 5.1 ISO [here](https://drive.google.com/open?id=0B1wrdynUizpMOWEwWFBnMlBkRUU). 
 ![HardDiskValidator on WinPE](HardDiskValidator-WinPE.png)
 
 Contact:
