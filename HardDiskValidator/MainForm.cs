@@ -34,6 +34,7 @@ namespace HardDiskValidator
             InitializeComponent();
             WinFormsUtils.SetFixedClientSize(this, 562, 344);
             this.Text += " " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(3);
+            this.AutoScaleMode = AutoScaleMode.Dpi;
         }
 
         private void MainForm_Load(object sender, EventArgs e)

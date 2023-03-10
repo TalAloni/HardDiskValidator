@@ -53,18 +53,20 @@ namespace HardDiskValidator
             // 
             // pictureBoxMap
             // 
-            this.pictureBoxMap.Location = new System.Drawing.Point(8, 35);
+            this.pictureBoxMap.Location = new System.Drawing.Point(9, 32);
+            this.pictureBoxMap.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBoxMap.Name = "pictureBoxMap";
-            this.pictureBoxMap.Size = new System.Drawing.Size(351, 301);
+            this.pictureBoxMap.Size = new System.Drawing.Size(410, 338);
             this.pictureBoxMap.TabIndex = 0;
             this.pictureBoxMap.TabStop = false;
             this.pictureBoxMap.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxMap_Paint);
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(370, 159);
+            this.btnStart.Location = new System.Drawing.Point(432, 147);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(75, 23);
+            this.btnStart.Size = new System.Drawing.Size(88, 21);
             this.btnStart.TabIndex = 6;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -75,9 +77,10 @@ namespace HardDiskValidator
             this.comboDisks.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboDisks.Enabled = false;
             this.comboDisks.FormattingEnabled = true;
-            this.comboDisks.Location = new System.Drawing.Point(8, 8);
+            this.comboDisks.Location = new System.Drawing.Point(9, 7);
+            this.comboDisks.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.comboDisks.Name = "comboDisks";
-            this.comboDisks.Size = new System.Drawing.Size(351, 21);
+            this.comboDisks.Size = new System.Drawing.Size(409, 20);
             this.comboDisks.TabIndex = 2;
             this.comboDisks.SelectedIndexChanged += new System.EventHandler(this.comboDisks_SelectedIndexChanged);
             // 
@@ -85,9 +88,10 @@ namespace HardDiskValidator
             // 
             this.chkRead.AutoSize = true;
             this.chkRead.Checked = true;
-            this.chkRead.Location = new System.Drawing.Point(6, 20);
+            this.chkRead.Location = new System.Drawing.Point(7, 18);
+            this.chkRead.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkRead.Name = "chkRead";
-            this.chkRead.Size = new System.Drawing.Size(51, 17);
+            this.chkRead.Size = new System.Drawing.Size(52, 16);
             this.chkRead.TabIndex = 3;
             this.chkRead.TabStop = true;
             this.chkRead.Text = "Read";
@@ -99,9 +103,11 @@ namespace HardDiskValidator
             this.groupBox1.Controls.Add(this.chkReadWriteVerifyRestore);
             this.groupBox1.Controls.Add(this.chkReadRewriteVerify);
             this.groupBox1.Controls.Add(this.chkRead);
-            this.groupBox1.Location = new System.Drawing.Point(370, 30);
+            this.groupBox1.Location = new System.Drawing.Point(432, 28);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(185, 122);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox1.Size = new System.Drawing.Size(216, 113);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Select Test:";
@@ -109,9 +115,10 @@ namespace HardDiskValidator
             // chkWriteVerify
             // 
             this.chkWriteVerify.AutoSize = true;
-            this.chkWriteVerify.Location = new System.Drawing.Point(6, 92);
+            this.chkWriteVerify.Location = new System.Drawing.Point(7, 85);
+            this.chkWriteVerify.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkWriteVerify.Name = "chkWriteVerify";
-            this.chkWriteVerify.Size = new System.Drawing.Size(88, 17);
+            this.chkWriteVerify.Size = new System.Drawing.Size(96, 16);
             this.chkWriteVerify.TabIndex = 7;
             this.chkWriteVerify.TabStop = true;
             this.chkWriteVerify.Text = "Write + Verify";
@@ -120,9 +127,10 @@ namespace HardDiskValidator
             // chkReadWriteVerifyRestore
             // 
             this.chkReadWriteVerifyRestore.AutoSize = true;
-            this.chkReadWriteVerifyRestore.Location = new System.Drawing.Point(6, 68);
+            this.chkReadWriteVerifyRestore.Location = new System.Drawing.Point(7, 63);
+            this.chkReadWriteVerifyRestore.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkReadWriteVerifyRestore.Name = "chkReadWriteVerifyRestore";
-            this.chkReadWriteVerifyRestore.Size = new System.Drawing.Size(175, 17);
+            this.chkReadWriteVerifyRestore.Size = new System.Drawing.Size(196, 16);
             this.chkReadWriteVerifyRestore.TabIndex = 5;
             this.chkReadWriteVerifyRestore.TabStop = true;
             this.chkReadWriteVerifyRestore.Text = "Read + Write + Verify + Restore";
@@ -131,9 +139,10 @@ namespace HardDiskValidator
             // chkReadRewriteVerify
             // 
             this.chkReadRewriteVerify.AutoSize = true;
-            this.chkReadRewriteVerify.Location = new System.Drawing.Point(6, 44);
+            this.chkReadRewriteVerify.Location = new System.Drawing.Point(7, 41);
+            this.chkReadRewriteVerify.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.chkReadRewriteVerify.Name = "chkReadRewriteVerify";
-            this.chkReadRewriteVerify.Size = new System.Drawing.Size(175, 17);
+            this.chkReadRewriteVerify.Size = new System.Drawing.Size(194, 16);
             this.chkReadRewriteVerify.TabIndex = 4;
             this.chkReadRewriteVerify.TabStop = true;
             this.chkReadRewriteVerify.Text = "Read + Wipe Damaged + Read";
@@ -142,17 +151,19 @@ namespace HardDiskValidator
             // lblSerialNumber
             // 
             this.lblSerialNumber.AutoSize = true;
-            this.lblSerialNumber.Location = new System.Drawing.Point(367, 11);
+            this.lblSerialNumber.Location = new System.Drawing.Point(428, 10);
+            this.lblSerialNumber.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSerialNumber.Name = "lblSerialNumber";
-            this.lblSerialNumber.Size = new System.Drawing.Size(30, 13);
+            this.lblSerialNumber.Size = new System.Drawing.Size(32, 12);
             this.lblSerialNumber.TabIndex = 5;
             this.lblSerialNumber.Text = "S/N:";
             // 
             // btnCopyLog
             // 
-            this.btnCopyLog.Location = new System.Drawing.Point(488, 158);
+            this.btnCopyLog.Location = new System.Drawing.Point(569, 146);
+            this.btnCopyLog.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.btnCopyLog.Name = "btnCopyLog";
-            this.btnCopyLog.Size = new System.Drawing.Size(67, 24);
+            this.btnCopyLog.Size = new System.Drawing.Size(78, 22);
             this.btnCopyLog.TabIndex = 10;
             this.btnCopyLog.Text = "Copy Log";
             this.btnCopyLog.UseVisualStyleBackColor = true;
@@ -161,18 +172,20 @@ namespace HardDiskValidator
             // lblPosition
             // 
             this.lblPosition.AutoSize = true;
-            this.lblPosition.Location = new System.Drawing.Point(3, 38);
+            this.lblPosition.Location = new System.Drawing.Point(4, 35);
+            this.lblPosition.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPosition.Name = "lblPosition";
-            this.lblPosition.Size = new System.Drawing.Size(47, 13);
+            this.lblPosition.Size = new System.Drawing.Size(54, 12);
             this.lblPosition.TabIndex = 7;
             this.lblPosition.Text = "Position:";
             // 
             // lblSpeed
             // 
             this.lblSpeed.AutoSize = true;
-            this.lblSpeed.Location = new System.Drawing.Point(3, 16);
+            this.lblSpeed.Location = new System.Drawing.Point(4, 15);
+            this.lblSpeed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSpeed.Name = "lblSpeed";
-            this.lblSpeed.Size = new System.Drawing.Size(41, 13);
+            this.lblSpeed.Size = new System.Drawing.Size(45, 12);
             this.lblSpeed.TabIndex = 8;
             this.lblSpeed.Text = "Speed:";
             // 
@@ -180,17 +193,20 @@ namespace HardDiskValidator
             // 
             this.groupProgress.Controls.Add(this.lblSpeed);
             this.groupProgress.Controls.Add(this.lblPosition);
-            this.groupProgress.Location = new System.Drawing.Point(370, 183);
+            this.groupProgress.Location = new System.Drawing.Point(432, 169);
+            this.groupProgress.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupProgress.Name = "groupProgress";
-            this.groupProgress.Size = new System.Drawing.Size(185, 64);
+            this.groupProgress.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupProgress.Size = new System.Drawing.Size(216, 59);
             this.groupProgress.TabIndex = 9;
             this.groupProgress.TabStop = false;
             // 
             // pictureBoxLegend
             // 
-            this.pictureBoxLegend.Location = new System.Drawing.Point(6, 13);
+            this.pictureBoxLegend.Location = new System.Drawing.Point(7, 12);
+            this.pictureBoxLegend.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.pictureBoxLegend.Name = "pictureBoxLegend";
-            this.pictureBoxLegend.Size = new System.Drawing.Size(172, 66);
+            this.pictureBoxLegend.Size = new System.Drawing.Size(201, 101);
             this.pictureBoxLegend.TabIndex = 10;
             this.pictureBoxLegend.TabStop = false;
             this.pictureBoxLegend.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxLegend_Paint);
@@ -198,18 +214,21 @@ namespace HardDiskValidator
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.pictureBoxLegend);
-            this.groupBox2.Location = new System.Drawing.Point(370, 251);
+            this.groupBox2.Location = new System.Drawing.Point(432, 232);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(184, 86);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox2.Size = new System.Drawing.Size(215, 129);
             this.groupBox2.TabIndex = 11;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Legend";
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(562, 344);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(646, 306);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.btnCopyLog);
             this.Controls.Add(this.groupProgress);
@@ -220,16 +239,17 @@ namespace HardDiskValidator
             this.Controls.Add(this.pictureBoxMap);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(570, 371);
-            this.MinimumSize = new System.Drawing.Size(570, 371);
+            this.MaximumSize = new System.Drawing.Size(662, 345);
+            this.MinimumSize = new System.Drawing.Size(662, 345);
             this.Name = "MainForm";
             this.Text = "Hard Disk Validator";
             this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
-            this.Load += new System.EventHandler(this.MainForm_Load);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMap)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
