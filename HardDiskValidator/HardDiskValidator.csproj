@@ -3,10 +3,13 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFrameworks>net20;net40;netcoreapp3.1</TargetFrameworks>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyTitle>Hard Disk Validator</AssemblyTitle>
+    <Product>Hard Disk Validator</Product>
     <Version>1.1.2</Version>
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationIcon>Icons\HardDisk.ico</ApplicationIcon>
+    <Authors>Tal Aloni</Authors>
+    <Copyright>Copyright © Tal Aloni 2016-2024</Copyright>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'net20' ">
